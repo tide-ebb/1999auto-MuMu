@@ -229,7 +229,7 @@ def xinxiang():
     time.sleep(5)
 
     #开始战斗
-    click_on_image('./pic/3re.png')
+    click_on_image('./pic/4re.png')
     time.sleep(25)
 
     click_on_image('./pic/victory.png')
@@ -374,11 +374,16 @@ def chapter4act21():
 def record_player():
 
     v("唱片机")
+    location = find_screen('./pic/record_assistance.png',)
+    x, y = location[:2]
+    pa.click(x+176,y,2)
+    time.sleep(3)
+
     # 进入判断
     estimate1 = find_screen('./pic/record.png')
     if estimate1:
-        click_on_image('./pic/record.png')
-        time.sleep(2)
+        # click_on_image('./pic/record.png')
+        # time.sleep(2)
 
         estimate2 = find_screen('./pic/check_rerecord.png', )
         if estimate2:
@@ -402,35 +407,48 @@ def task():
     v("任务")
     # 进入
     click_on_image('./pic/task.png')
-    time.sleep(3)
-    #领取
-    click_on_image('./pic/allre.png')
-    time.sleep(5)
-    pa.click(button='right')
-    time.sleep(3)
 
-    # 像素颜色识别点击功能
-    # 257，25
-    estimate = click_if_color_matches(
-        template_path="pic/weekact.png",  # 按钮模板图片
-        target_rgb_range=((180, 0, 0), (255, 100, 100)),
-        threshold=0.8,
-        max_retry=50,
-        color_check_offset=(257, 25)
-    )
-    if estimate:
-        time.sleep(1)
-        click_on_image('./pic/allre.png')
-        time.sleep(5)
-        pa.click(button='right')
+    #日常领取
+    click_on_image('./pic/allre.png')
+    time.sleep(3)
+    pa.click(button='right')
+
+    #周常领取
+    click_on_image('./pic/weekact.png', False)
+    time.sleep(3)
+    estimate1 = find_screen('./pic/weekre.png')
+    while estimate1:
+        click_on_image('./pic/weekre.png')
         time.sleep(3)
-        # 返回主界面
-        menu()
-        print("任务已领取")
-    else:
-        # 返回主界面
-        menu()
-        print("任务已领取")
+        pa.click(button='right')
+        time.sleep(1)
+        estimate1 = find_screen('./pic/weekre.png')
+    # 返回主界面
+    menu()
+    print("任务已领取")
+
+    # # 像素颜色识别点击功能
+    # # 257，25
+    # estimate = click_if_color_matches(
+    #     template_path="pic/weekact.png",  # 按钮模板图片
+    #     target_rgb_range=((180, 0, 0), (255, 100, 100)),
+    #     threshold=0.8,
+    #     max_retry=50,
+    #     color_check_offset=(257, 25)
+    # )
+    # if estimate:
+    #     time.sleep(1)
+    #     click_on_image('./pic/allre.png')
+    #     time.sleep(5)
+    #     pa.click(button='right')
+    #     time.sleep(3)
+    #     # 返回主界面
+    #     menu()
+    #     print("任务已领取")
+    # else:
+    #     # 返回主界面
+    #     menu()
+    #     print("任务已领取")
 
 
 
@@ -438,33 +456,69 @@ def task():
 def timed_event():
 
     v("活动")
-    # 进入
-    click_on_image('./opic/eventplot.png')
-    time.sleep(4)
-    click_on_image('./opic/event.png')
-    time.sleep(3)
-    click_on_image("./opic/chapter.png", assign_template_path="./opic/actletsgo.png")
-    # time.sleep(3)
-    click_on_image("./opic/actletsgo.png")
-    time.sleep(4)
-
-    # 开始战斗
-    fight(3, judge_picture="./pic/active.png")
+    #活动模块
+    wherego()
+    # calaite()
+    # event_simulate()
 
     # 返回主界面
     menu()
     print("活动关卡结束")
 
 
+
+#人们向何处去
+def wherego():
+    # 进入
+    click_on_image('./opic/eventplot_wherego.png')
+    click_on_image('./opic/event_wherego.png')
+    click_on_image("./opic/chapter_wherego.png", assign_template_path="./opic/actletsgo_wherego.png")
+    click_on_image("./opic/actletsgo_wherego.png")
+    # 开始战斗
+    fight(3, judge_picture="./pic/active.png")
+
+
+#绿松石蛇俱乐部
+def calaite():
+    # 进入
+    click_on_image('./opic/eventplot_calaite.png')
+    click_on_image('./opic/event_calaite.png')
+    click_on_image("./opic/chapter_calaite.png", assign_template_path="./opic/actletsgo_calaite.png")
+    click_on_image("./opic/actletsgo_calaite.png")
+    # 开始战斗
+    fight(3, judge_picture="./pic/active.png")
+
+
+#雨中漫游指南
+def event_simulate():
+    for i in range(1999):
+        click_on_image('./opic/simulate_start.png')
+        click_on_image('./opic/simulate_next.png')
+        click_on_image('./opic/simulate_select.png')
+        back_discern('./opic/simulate_confirm.png')
+        click_on_image('./opic/simulate_confirm.png')
+        back_discern('./opic/simulate_end.png', 'middle')
+        click_on_image('./opic/simulate_end.png')
+        click_on_image('./pic/confirm.png')
+        back_discern('./opic/simulate_start.png',clicks=5)
+
+
+#单一对象返回识别循环
+def back_discern(judge_picture,click='right',clicks=1):
+    judge = None
+    while not judge:
+        pa.click(clicks=clicks,interval=0.75,button=click)
+        time.sleep(1.5)
+        judge = find_screen(judge_picture)
+
 # 返回主界面
 def menu():
-    pa.click(button='right')
-    time.sleep(2)
-    judge = find_screen('./pic/menu.png')
-    while not judge:
-        pa.click(button='right')
-        time.sleep(2)
-        judge = find_screen('./pic/menu.png')
+    back_discern('./pic/menu.png')
+    # judge = None
+    # while not judge:
+    #     pa.click(button='right')
+    #     time.sleep(2)
+    #     judge = find_screen('./pic/menu.png')
     print("返回主界面")
 
 
@@ -481,6 +535,7 @@ def fight(x=1, judge_picture=None, circulation=False):
             if judge:
                 pa.click(button='middle')
                 print("活性不足")
+                time.sleep(1)
                 return judge
         time.sleep(15)
         click_on_image('./pic/victory.png', assign_template_path='./pic/re.png')
