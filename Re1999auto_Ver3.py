@@ -3,8 +3,11 @@ import cv2
 import tkinter as tk
 import numpy as np
 import time
+import os
 
-# 核心函数
+
+"""===============================核心函数==============================="""
+
 # 截屏并识别图像，返回坐标/空值
 def find_screen(template_path, threshold=0.8):
     template = cv2.imread(template_path, cv2.IMREAD_COLOR)
@@ -26,7 +29,7 @@ def find_screen(template_path, threshold=0.8):
     else:
         return None
 
-
+#颜色识别与点击
 def check_color_in_region(screen, top_left, target_rgb_range, offset=(0, 0)):
     # 计算校验点坐标（基于左上角+偏移）
     check_x = top_left[0] + offset[0]
@@ -99,12 +102,14 @@ def click_on_image(template_path, check_after_click=True, assign_template_path=N
         time.sleep(5)
         location = find_screen(template_path, threshold)
 
-    # 点击
+    # 初次点击
     x, y = location[:2]
-    total_click_count = 0
-    check_post = assign_template_path if assign_template_path is not None else template_path
-    print()
 
+    #检测计数初始化
+    total_click_count = 0
+    #检测图像若未设置则检测自身
+    check_post = assign_template_path if assign_template_path is not None else template_path
+    #检测响应循环
     while True:
         pa.click(x, y, button='left')
         total_click_count += 1
@@ -125,7 +130,7 @@ def click_on_image(template_path, check_after_click=True, assign_template_path=N
 
 
 
-
+"""===============================功能实现==============================="""
 
 
 #荒原
@@ -146,64 +151,65 @@ def manor():
     click_on_image('./pic/opinion.png')
     time.sleep(5)
 
-    #工厂
-    #收取
-    click_on_image('./pic/pro.png', assign_template_path='./pic/gain.png')
-    time.sleep(5)
+    # #工厂
+    # #收取
+    # click_on_image('./pic/pro.png', assign_template_path='./pic/gain.png')
+    # time.sleep(5)
+    #
+    # click_on_image('./pic/gain.png', False)
+    # time.sleep(5)
+    #
+    # #关闭获取界面
+    # pa.click(button='right')
+    # time.sleep(3)
+    #
+    # click_on_image('./pic/rest.png')
+    # time.sleep(3)
+    #
+    # click_on_image('./pic/redact.png')
+    # time.sleep(2)
+    #
+    # # 休息安置
+    # click_on_image('./pic/remove.png', False)
+    # time.sleep(0.8)
+    # #工作魔精的位置
+    # pa.click(1020, 900, 6, 0.8)
+    # time.sleep(1)
+    # click_on_image('./pic/house2.png', False)
+    # time.sleep(1)
+    # click_on_image('./pic/remove.png', False)
+    # time.sleep(0.8)
+    # # 工作魔精的位置
+    # pa.click(1320, 900, 2, 0.8)
+    # time.sleep(1)
+    #
+    # pa.click(button='middle')
+    # time.sleep(1)
+    #
+    # click_on_image('./pic/production.png')
+    # time.sleep(1.5)
+    #
+    # click_on_image('./pic/batchpro.png')
+    # time.sleep(1.5)
+    #
+    # click_on_image('./pic/batchput.png', False)
+    # time.sleep(1.5)
+    #
+    # click_on_image('./pic/batchmojing.png')
+    # time.sleep(2)
+    #
+    #
+    # pa.moveTo(468, 713)
+    # pa.mouseDown(button='left')
+    # pa.dragTo(1088, 713, duration=2)
+    # pa.moveTo(1500, 498)
+    # pa.dragTo(468, 498, duration=2)
+    # pa.mouseUp(button='left')
+    # time.sleep(3)
+    #
+    # pa.click(button='middle', clicks=3, interval=2.5)
+    # time.sleep(1.5)
 
-    click_on_image('./pic/gain.png', False)
-    time.sleep(5)
-
-    #关闭获取界面
-    pa.click(button='right')
-    time.sleep(3)
-
-    click_on_image('./pic/rest.png')
-    time.sleep(3)
-
-    click_on_image('./pic/redact.png')
-    time.sleep(2)
-
-    # 休息安置
-    click_on_image('./pic/remove.png', False)
-    time.sleep(0.8)
-    #工作魔精的位置
-    pa.click(1020, 900, 6, 0.8)
-    time.sleep(1)
-    click_on_image('./pic/house2.png', False)
-    time.sleep(1)
-    click_on_image('./pic/remove.png', False)
-    time.sleep(0.8)
-    # 工作魔精的位置
-    pa.click(1320, 900, 2, 0.8)
-    time.sleep(1)
-
-    pa.click(button='middle')
-    time.sleep(1)
-
-    click_on_image('./pic/production.png')
-    time.sleep(1.5)
-
-    click_on_image('./pic/batchpro.png')
-    time.sleep(1.5)
-
-    click_on_image('./pic/batchput.png', False)
-    time.sleep(1.5)
-
-    click_on_image('./pic/batchmojing.png')
-    time.sleep(2)
-
-
-    pa.moveTo(468, 713)
-    pa.mouseDown(button='left')
-    pa.dragTo(1088, 713, duration=2)
-    pa.moveTo(1500, 498)
-    pa.dragTo(468, 498, duration=2)
-    pa.mouseUp(button='left')
-    time.sleep(3)
-
-    pa.click(button='middle', clicks=3, interval=2.5)
-    time.sleep(1.5)
     menu()
     print("荒原已完成")
 
@@ -214,26 +220,26 @@ def xinxiang():
     v("心相")
     #进入
     click_on_image('./pic/entrance.png')
-    time.sleep(2)
+    # time.sleep(2)
 
     click_on_image('./pic/resource.png', assign_template_path='./pic/volition.png')
-    time.sleep(2)
+    # time.sleep(2)
 
     click_on_image('./pic/volition.png')
-    time.sleep(2)
+    # time.sleep(2)
 
     click_on_image('./pic/volition07.png', assign_template_path='./pic/letsgo.png')
-    time.sleep(2)
+    # time.sleep(2)
 
     click_on_image('./pic/letsgo.png')
-    time.sleep(5)
+    # time.sleep(5)
 
     #开始战斗
     click_on_image('./pic/4re.png')
     time.sleep(25)
 
     click_on_image('./pic/victory.png')
-    time.sleep(5)
+    # time.sleep(5)
 
     # 返回主界面
     menu()
@@ -322,51 +328,51 @@ def mote(loop=False):
 
 
 
-#材料(未更新)
-def chapter4act21():
-
-    v("421")
-    #进入
-    click_on_image('./pic/entrance.png')
-    time.sleep(2)
-
-    #拖动
-    pa.mouseDown(200,520,button="left")
-    pa.dragTo(1730,520,duration=3)
-    pa.mouseUp(button="left")
-    time.sleep(2)
-
-    #章节
-    click_on_image('./pic/chapter4.png')
-    time.sleep(2)
-
-    #拖动
-    pa.mouseDown(200, 820, button="left")
-    pa.dragTo(1730, 820, duration=3)
-    pa.mouseUp(button="left")
-    time.sleep(2)
-
-    #21
-    click_on_image('./pic/421.png')
-    time.sleep(2)
-
-    #厄运
-    pa.click(1630,400,1,duration=1)
-    time.sleep(2)
-
-    click_on_image('./pic/misgo.png')
-    time.sleep(5)
-
-    #开始战斗
-    click_on_image('./pic/4re.png')
-    time.sleep(40)
-
-    click_on_image('./pic/victory.png')
-    time.sleep(5)
-
-    #返回主界面
-    menu()
-    print("421已完成")
+# #材料(未更新)
+# def chapter4act21():
+#
+#     v("421")
+#     #进入
+#     click_on_image('./pic/entrance.png')
+#     time.sleep(2)
+#
+#     #拖动
+#     pa.mouseDown(200,520,button="left")
+#     pa.dragTo(1730,520,duration=3)
+#     pa.mouseUp(button="left")
+#     time.sleep(2)
+#
+#     #章节
+#     click_on_image('./pic/chapter4.png')
+#     time.sleep(2)
+#
+#     #拖动
+#     pa.mouseDown(200, 820, button="left")
+#     pa.dragTo(1730, 820, duration=3)
+#     pa.mouseUp(button="left")
+#     time.sleep(2)
+#
+#     #21
+#     click_on_image('./pic/421.png')
+#     time.sleep(2)
+#
+#     #厄运
+#     pa.click(1630,400,1,duration=1)
+#     time.sleep(2)
+#
+#     click_on_image('./pic/misgo.png')
+#     time.sleep(5)
+#
+#     #开始战斗
+#     click_on_image('./pic/4re.png')
+#     time.sleep(40)
+#
+#     click_on_image('./pic/victory.png')
+#     time.sleep(5)
+#
+#     #返回主界面
+#     menu()
+#     print("421已完成")
 
 
 
@@ -374,31 +380,89 @@ def chapter4act21():
 def record_player():
 
     v("唱片机")
-    location = find_screen('./pic/record_assistance.png',)
-    x, y = location[:2]
-    pa.click(x+176,y,2)
-    time.sleep(3)
+    #进入界面
+    def record(locations, deflection=300):
+        # 加偏转坐标300 原176
+        x, y = locations[:2]
+        pa.click(x + deflection, y, 2)
+        time.sleep(3)
 
-    # 进入判断
+    #领取
+    def record_re(image='./pic/rerecord.png'):
+        click_on_image(image)
+        # back_discern('./pic/record.png')
+        menu()
+        # print("唱片机经验已领取")
+
+    # 庆典母盘
+    def celebration_record():
+        v("唱片机")
+
+        # 定位图片设置
+        location = find_screen('./pic/record_assistance.png')
+
+        record(location,385)
+        estimate1 = find_screen('./pic/celebration_record.png')
+        while not estimate1:
+            record(location,385)
+
+        estimate3 = find_screen('./pic/rerecord_celebration.png')
+        if estimate3:
+            record_re('./pic/rerecord_celebration.png')
+            print("庆典母盘奖励已领取")
+        else:
+            menu()
+
+    # 定位图片设置
+    location = find_screen('./pic/record_assistance.png')
+
+    # 进入与识别
+    record(location)
     estimate1 = find_screen('./pic/record.png')
-    if estimate1:
-        # click_on_image('./pic/record.png')
-        # time.sleep(2)
 
+    if estimate1:
+        #满级识别判断
         estimate2 = find_screen('./pic/check_rerecord.png', )
         if estimate2:
-            # 返回主界面
             menu()
             print("唱片机已领取")
+            return
+
         else:
-            # 领取
-            click_on_image('./pic/rerecord.png')
-            time.sleep(7)
-            # 返回主界面
-            menu()
-            print("唱片机已领取")
+            # 执行领取
+            record_re()
+            print("唱片机经验已领取")
+
+    record(location)
+    estimate1 = find_screen('./pic/record.png')
+    while not estimate1:
+        record(location)
+
+    estimate3 = find_screen('./pic/rerecord.png')
+    if estimate3:
+        record_re()
+        print("唱片机奖励已领取")
     else:
-        return
+        menu()
+
+
+    #领取母盘
+    celebration_record()
+
+
+
+
+# 邮件
+def mail():
+
+    v("邮件")
+    click_on_image('./pic/mail.png')
+    click_on_image("./pic/mail_get.png",check_after_click=False)
+
+    # 返回主界面
+    back_discern('./pic/record_assistance.png',"middle")
+    print("邮件已领取")
+
 
 
 #任务
@@ -409,20 +473,23 @@ def task():
     click_on_image('./pic/task.png')
 
     #日常领取
-    click_on_image('./pic/allre.png')
-    time.sleep(3)
-    pa.click(button='right')
+    click_on_image('./pic/taskre_all.png')
+    back_discern('./pic/taskju_day.png')
 
     #周常领取
     click_on_image('./pic/weekact.png', False)
     time.sleep(3)
+
+    estimate2 = find_screen('./pic/taskre_all.png')
+    if estimate2:
+        click_on_image('./pic/taskre_all.png')
+        back_discern('./pic/taskju_week.png')
+
     estimate1 = find_screen('./pic/weekre.png')
-    while estimate1:
-        click_on_image('./pic/weekre.png')
-        time.sleep(3)
-        pa.click(button='right')
-        time.sleep(1)
-        estimate1 = find_screen('./pic/weekre.png')
+    if estimate1:
+        click_on_image('./pic/weekre.png',False)
+        back_discern('./pic/taskju_week.png')
+
     # 返回主界面
     menu()
     print("任务已领取")
@@ -457,7 +524,12 @@ def timed_event():
 
     v("活动")
     #活动模块
-    wherego()
+    door()
+
+    # sea()
+    # atom()
+    # century()
+    # wherego()
     # calaite()
     # event_simulate()
 
@@ -465,6 +537,53 @@ def timed_event():
     menu()
     print("活动关卡结束")
 
+
+#应门者
+def door():
+    # 进入
+    click_on_image('./opic/eventplot_door.png')
+    click_on_image('./opic/event_door.png')
+    click_on_image("./opic/chapter_door.png", assign_template_path="./opic/actletsgo_door.png")
+    click_on_image("./opic/actletsgo_door.png")
+    # 开始战斗
+    fight(judge_picture="./pic/active.png", circulation=True)
+
+
+
+#鎏金之海
+def sea():
+    # 进入
+    click_on_image('./opic/eventplot_sea.png')
+    click_on_image('./opic/event_sea.png')
+    click_on_image("./opic/chapter_sea.png", assign_template_path="./opic/actletsgo_sea.png")
+    click_on_image("./opic/actletsgo_sea.png")
+    # 开始战斗
+    fight(judge_picture="./pic/active.png", circulation=True)
+
+
+
+#原子之心
+def atom():
+    # 进入
+    click_on_image('./opic/eventplot_atom.png')
+    click_on_image('./opic/event_atom.png')
+    click_on_image("./opic/chapter_atom.png", assign_template_path="./opic/actletsgo_atom.png")
+    click_on_image("./opic/actletsgo_atom.png")
+    # 开始战斗
+    fight(judge_picture="./pic/active.png", circulation=True)
+
+
+
+
+#世纪末尺度
+def century():
+    # 进入
+    click_on_image('./opic/eventplot_century.png')
+    click_on_image('./opic/event_century.png')
+    click_on_image("./opic/chapter_century.png", assign_template_path="./opic/actletsgo_century.png")
+    click_on_image("./opic/actletsgo_century.png")
+    # 开始战斗
+    fight(judge_picture="./pic/active.png",circulation=True)
 
 
 #人们向何处去
@@ -513,12 +632,7 @@ def back_discern(judge_picture,click='right',clicks=1):
 
 # 返回主界面
 def menu():
-    back_discern('./pic/menu.png')
-    # judge = None
-    # while not judge:
-    #     pa.click(button='right')
-    #     time.sleep(2)
-    #     judge = find_screen('./pic/menu.png')
+    back_discern('./pic/record_assistance.png')
     print("返回主界面")
 
 
@@ -557,6 +671,10 @@ def fight(x=1, judge_picture=None, circulation=False):
                 break
 
 
+
+"""===============================UI界面==============================="""
+
+
 #获取选中状态
 def get_selected_modules():
     selected = []
@@ -570,6 +688,9 @@ def start_select(selected_modules):
     selected = get_selected_modules()
     print("选中的模块：", selected)
     b7.config(state="disabled") # 禁用按键
+
+    if selected_modules["fight"].get():
+        fight(judge_picture="./pic/active.png", circulation=True)
 
     if selected_modules["manor"].get():
         manor()
@@ -589,11 +710,11 @@ def start_select(selected_modules):
         record_player()
     if selected_modules["task"].get():
         task()
+    if selected_modules["mail"].get():
+        mail()
 
     # if selected_modules["421"].get() == True:
     #     chapter4act21()
-    if selected_modules["fight"].get():
-        fight(judge_picture="./pic/active.png", circulation=True)
 
     v("已完成")
     print("选中已全部完成")
@@ -602,20 +723,27 @@ def start_select(selected_modules):
     for key in selected:
         selected_modules[key].set(False)
 
-
-
-#UI窗口
-root = tk.Tk()
-root.title("重返未来：1999 日常自动")
-root.geometry("400x550+50+40")
-font_config = ("SimHei", 10)
-
-
 # 标签刷新
 def v(name):
     var = name
     label.config(text=f"正在进行：{var}")
     root.update()
+
+
+# 打开文件
+def open_file():
+    os.startfile(r"F:\python_procedure\1999_auto\Re1999auto_Ver3.py")
+
+
+#UI窗口
+root = tk.Tk()
+root.title("重返未来：1999 日常自动")
+root.geometry("400x550+350+250")
+font_config = ("SimHei", 10)
+
+frame = tk.Frame(root)
+frame.pack(fill=tk.X)
+tk.Button(frame, text="打开代码", command=open_file).pack(side=tk.LEFT, padx=0)
 
 
 # 模块选择区域
@@ -628,6 +756,7 @@ module_mapping = {
     "act": "活动",
     "record_player": "唱片机",
     "task": "任务",
+    "mail": "邮件",
     "gold_re": "金币循环",
     "mote_re": "微尘循环",
     "fight": "战斗循环"
@@ -638,6 +767,7 @@ module_mapping = {
 ## 初始化选中状态的字典
 selected_modules = {key: tk.BooleanVar() for key in module_mapping.keys()}
 
+#选中状态字典的直观展开
 # selected_modules = {
 #                     "manor": tk.BooleanVar(),
 #                     "xinxiang": tk.BooleanVar(),
@@ -653,19 +783,18 @@ selected_modules = {key: tk.BooleanVar() for key in module_mapping.keys()}
 #                      #"421": tk.BooleanVar()
 #                     }
 
+
+#复选框搭建
 frame_modules = tk.Frame(root)
 frame_modules.pack(pady=10, padx=20, fill="x")
 
 ## 循环创建复选框
 for key, text in module_mapping.items():
-    cb = tk.Checkbutton(
-        frame_modules,
-        text=text,
-        variable=selected_modules[key],
-        font=font_config
-    )
+    cb = tk.Checkbutton(frame_modules, variable=selected_modules[key], text=text, font=font_config)
     cb.pack(anchor="center", pady=2)
 
+
+#复选框的直观展开
 # tk.Checkbutton(frame_modules, text="荒原", variable=selected_modules["manor"], font=font_config).pack(anchor="center", pady=2)
 # tk.Checkbutton(frame_modules, text="心相", variable=selected_modules["xinxiang"], font=font_config).pack(anchor="center", pady=2)
 # tk.Checkbutton(frame_modules, text="金币", variable=selected_modules["gold"], font=font_config).pack(anchor="center", pady=2)
@@ -678,12 +807,12 @@ for key, text in module_mapping.items():
 # tk.Checkbutton(frame_modules, text="战斗循环", variable=selected_modules["fight"], font=font_config).pack(anchor="center", pady=2)
 
 
-#标签
+# 状态标签
 label = tk.Label(root, text=' ', font=("Arial", 14))
 label.pack(pady=20)
 
 
-#按钮
+# 执行按钮
 b7 = tk.Button(root, text="开始执行", width=20, height=3, command=lambda: start_select(selected_modules))
 b7.pack()
 
